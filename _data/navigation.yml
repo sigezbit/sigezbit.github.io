@@ -1,0 +1,9 @@
+en:
+  - title: "Home"
+    link: "/"
+ru:
+  - title: "Главная"
+    link: "/ru/"
+tt:
+  - title: "Баш бит"
+    link: "/tt/"

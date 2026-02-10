@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+<article>
+  <h1>{{ page.title }}</h1>
+  <p><small>{{ site.data.topics[page.topic_slug][page.lang] }} | {{ page.order }}</small></p>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  {% include topic-navigation.html %}
+</article>
+
+{% assign intro = site[page.lang] | where: "topic_slug", page.topic_slug | where: "layout", "landing" | first %}
+
+<small>
+  <a href="{{ intro.url | relative_url }}">{{ site.data.topics[page.topic_slug][page.lang] }}</a>
+</small>

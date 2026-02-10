@@ -1,0 +1,27 @@
+<header class="site-header" role="banner">
+  <div class="wrapper">
+    <nav class="site-title">
+      <div class="trigger">
+        {% for item in site.data.navigation[page.lang] %}
+        <a href="{{ item.link | relative_url }}">{{ item.title }}</a>
+        {% endfor %}
+      </div>
+    </nav>
+    <nav class="site-nav">
+      <div class="trigger">
+        {% if page.lang == "en" %}
+        <a href="{{ site.baseurl }}/ru/">RU</a>&nbsp;|
+        <a href="{{ site.baseurl }}/tt/">TT</a>
+        {% else %}
+          {% if page.lang == "ru" %}
+          <a href="{{ site.baseurl }}/">EN</a>&nbsp;|
+          <a href="{{ site.baseurl }}/tt/">TT</a>
+          {% else %}
+          <a href="{{ site.baseurl }}/">EN</a>&nbsp;|
+          <a href="{{ site.baseurl }}/ru/">RU</a>
+          {% endif %}
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+</header>

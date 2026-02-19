@@ -3,7 +3,9 @@
     <nav class="site-title">
       <div class="trigger">
         {% for item in site.data.navigation[page.lang] %}
-        <a href="{{ item.link | relative_url }}">{{ item.title }}</a>
+        <a href="{{ item.link | relative_url }}">
+          <img alt="{{ item.title }}" src="{{ "/assets/images/logo.png" | relative_url }}"  width="90" height="48" />
+        </a>
         {% endfor %}
       </div>
     </nav>

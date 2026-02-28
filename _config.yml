@@ -21,10 +21,10 @@
 title: 8bit
 email: i.m.valeev@gmail.com
 description: Articles, thoughts, reactions
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-# twitter_username: jekyllrb
-# github_username:  jekyll
+baseurl: ""
+url: "https://sigezbit.github.io/"
+github_username:  sigezbit
+google_analytics: G-XSN1K30TLN
 
 # Build settings
 theme: minima

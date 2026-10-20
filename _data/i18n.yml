@@ -6,6 +6,10 @@ content:
   en: "Content"
   ru: "Содержание"
   tt: "Эчтәлек"
+topic_start:
+  en: "Beginning"
+  ru: "Начало"
+  tt: "Беренче бит"
 topic_end:
   en: "End"
   ru: "Последняя"

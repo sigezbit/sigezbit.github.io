@@ -1,9 +1,8 @@
 {% assign current_topic = page.topic_slug %}
 {% if current_topic %}
-  {% assign articles = site[page.lang] | where: "topic_slug", current_topic | sort: "order" %}
+  {% assign articles = site[page.lang] | where: "topic_slug", current_topic | where: "layout", "post" | sort: "order" %}
 
   <nav class="topic-pagination">
-    <hr>
     <div class="topic-pagination-wrapper">
       
       {% for article in articles %}
@@ -11,7 +10,7 @@
           
           <div class="prev">
             {% if forloop.first %}
-              <span>&laquo; Start of Book</span>
+              <span>-</span>
             {% else %}
               {% assign prev_index = forloop.index0 | minus: 1 %}
               {% assign prev_page = articles[prev_index] %}
@@ -21,7 +20,7 @@
 
           <div class="next">
             {% if forloop.last %}
-              <span>{{ site.data.i18n.topic_end[page.lang] }} &raquo;</span>
+              <span>-</span>
             {% else %}
               {% assign next_index = forloop.index0 | plus: 1 %}
               {% assign next_page = articles[next_index] %}

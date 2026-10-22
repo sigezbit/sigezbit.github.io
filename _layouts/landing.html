@@ -12,7 +12,7 @@ layout: default
   <hr>
   <br />
   <h3>{{ site.data.i18n.content[page.lang] }}:</h3>
-  <ol class="article-list">
+  <ol style="list-style-type: none;">
     {% assign articles = site[page.lang] | where: "topic_slug", page.topic_slug | where: "layout", "post" | sort: "order" %}
 
     {% for article in articles %}

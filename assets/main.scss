@@ -18,3 +18,8 @@
   display: flex; 
   justify-content: space-between;
 }
+
+.wrapper {
+    max-width: -webkit-calc(1000px - (30px * 2));
+    max-width: calc(1000px - 30px * 2);
+}

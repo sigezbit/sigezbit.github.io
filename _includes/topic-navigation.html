@@ -8,7 +8,7 @@
       {% for article in articles %}
         {% if article.url == page.url %}
           
-          <div class="prev">
+          <small class="prev">
             {% if forloop.first %}
               <span>-</span>
             {% else %}
@@ -16,9 +16,9 @@
               {% assign prev_page = articles[prev_index] %}
               <a href="{{ prev_page.url | relative_url }}">&laquo; {{ prev_page.title }}</a>
             {% endif %}
-          </div>
+          </small>
 
-          <div class="next">
+          <small class="next">
             {% if forloop.last %}
               <span>-</span>
             {% else %}
@@ -26,7 +26,7 @@
               {% assign next_page = articles[next_index] %}
               <a href="{{ next_page.url | relative_url }}">{{ next_page.title }} &raquo;</a>
             {% endif %}
-          </div>
+          </small>
 
         {% endif %}
       {% endfor %}

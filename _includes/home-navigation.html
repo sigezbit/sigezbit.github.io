@@ -12,7 +12,7 @@
         
         {% assign intro = topic.items " | where: "layout", "landing" | first %}
         <strong><a href="{{ intro.url | relative_url }}">{{ topic_title }}</a></strong>
-        <ol>
+        <ol style="list-style-type: none;">
           {% assign articles = topic.items " | where: "layout", "post" | sort: "order" %}
           {% for article in articles %}
             <li><a href="{{ article.url | relative_url }}">{{ article.title }}</a></li>

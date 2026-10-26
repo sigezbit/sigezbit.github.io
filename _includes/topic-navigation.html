@@ -1,36 +1,59 @@
 {% assign current_topic = page.topic_slug %}
 {% if current_topic %}
   {% assign articles = site[page.lang] | where: "topic_slug", current_topic | where: "layout", "post" | sort: "order" %}
+  {% assign intro = site[page.lang] | where: "topic_slug", current_topic | where: "layout", "landing" | first %}
 
-  <nav class="topic-pagination">
+  {% assign prev_page = nil %}
+  {% assign next_page = nil %}
+
+  {% for article in articles %}
+    {% if article.url == page.url %}
+      {% if forloop.first %}
+        {% assign prev_page = nil %}
+      {% else %}
+        {% assign prev_index = forloop.index0 | minus: 1 %}
+        {% assign prev_page = articles[prev_index] %}
+      {% endif %}
+
+      {% if forloop.last %}
+        {% assign next_page = nil %}
+      {% else %}
+        {% assign next_index = forloop.index0 | plus: 1 %}
+        {% assign next_page = articles[next_index] %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  <nav class="topic-pagination" aria-label="Chapter navigation">
     <div class="topic-pagination-wrapper">
       
-      {% for article in articles %}
-        {% if article.url == page.url %}
-          
-          <small class="prev">
-            {% if forloop.first %}
-              <span>-</span>
-            {% else %}
-              {% assign prev_index = forloop.index0 | minus: 1 %}
-              {% assign prev_page = articles[prev_index] %}
-              <a href="{{ prev_page.url | relative_url }}">&laquo; {{ prev_page.title }}</a>
-            {% endif %}
-          </small>
-
-          <small class="next">
-            {% if forloop.last %}
-              <span>-</span>
-            {% else %}
-              {% assign next_index = forloop.index0 | plus: 1 %}
-              {% assign next_page = articles[next_index] %}
-              <a href="{{ next_page.url | relative_url }}">{{ next_page.title }} &raquo;</a>
-            {% endif %}
-          </small>
-
+      <div class="pagination-col prev">
+        {% if prev_page %}
+          <a href="{{ prev_page.url | relative_url }}" class="pagination-card" rel="prev">
+            <span class="pagination-label">&larr; {{ site.data.i18n.prev[page.lang] | default: "Previous" }}</span>
+            <span class="pagination-title">{{ prev_page.title }}</span>
+          </a>
         {% endif %}
-      {% endfor %}
-      
+      </div>
+
+      <div class="pagination-col center">
+        {% if intro %}
+          <a href="{{ intro.url | relative_url }}" class="pagination-toc-link" title="{{ site.data.i18n.content[page.lang] | default: 'Contents' }}">
+            <span class="toc-icon" aria-hidden="true">&#9776;</span>
+            <span class="toc-label">{{ site.data.i18n.content[page.lang] | default: "Contents" }}</span>
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="pagination-col next">
+        {% if next_page %}
+          <a href="{{ next_page.url | relative_url }}" class="pagination-card" rel="next">
+            <span class="pagination-label">{{ site.data.i18n.next[page.lang] | default: "Next" }} &rarr;</span>
+            <span class="pagination-title">{{ next_page.title }}</span>
+          </a>
+        {% endif %}
+      </div>
+
     </div>
   </nav>
 {% endif %}

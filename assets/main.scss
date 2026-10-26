@@ -3,23 +3,438 @@
 
 @import "{{ site.theme }}";
 
-.site-header {
-  background: #d2f7f0;
-  background: linear-gradient(15deg, rgba(210, 247, 240, 1) 0%, rgba(171, 197, 235, 1) 97%);
-  border-top: unset;
-  border-bottom: unset;
+// 1. Layout & Header
+.wrapper {
+  max-width: calc(1000px - 60px);
 }
 
 .page-content {
-  padding: 20px 0;
+  padding: 24px 0;
+}
+
+.site-header {
+  background: linear-gradient(15deg, rgba(210, 247, 240, 0.95) 0%, rgba(171, 197, 235, 0.95) 97%);
+  border-top: unset;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    // Suppress Minima clearfix pseudo-element from becoming a flex child
+    &::before, &::after {
+      display: none !important;
+      content: none !important;
+    }
+  }
+
+  .site-brand {
+    display: flex;
+    align-items: center;
+
+    .site-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+    }
+  }
+
+  .site-nav {
+    margin-left: auto;
+    float: none;
+    display: flex;
+    align-items: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+
+    @media screen and (max-width: 600px) {
+      position: static;
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+  }
+}
+
+// 2. Language Switcher (Segmented Pill)
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  gap: 2px;
+}
+
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  text-decoration: none;
+  color: #475569;
+  line-height: 1;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: #0f172a;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  &.active {
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    cursor: default;
+  }
+}
+
+// 3. Book Reading Typography (Chapter Layout)
+.post-article {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.post-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.post-breadcrumb {
+  font-size: 0.85rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  a {
+    color: #475569;
+    text-decoration: none;
+    &:hover { color: #0284c7; text-decoration: underline; }
+  }
+
+  .breadcrumb-sep { color: #94a3b8; }
+  .breadcrumb-current { color: #0f172a; font-weight: 500; }
+}
+
+.top-nav-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 4px 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transform: translateX(1px);
+    text-decoration: none;
+  }
+
+  .top-nav-label { font-weight: 600; color: #0284c7; white-space: nowrap; }
+  .top-nav-title { font-weight: 500; color: #1e293b; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top-nav-arrow { color: #64748b; font-size: 0.85rem; }
+}
+
+.post-title {
+  margin: 0.25rem 0 0.5rem;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 1.75rem;
+
+  .meta-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .chapter-badge {
+    background: #f1f5f9;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-weight: 500;
+  }
+}
+
+// Long-form Reading Body
+.post-content {
+  font-size: 1.075rem;
+  line-height: 1.75;
+  color: #1e293b;
+
+  p { margin-bottom: 1.4rem; }
+
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: #f8fafc;
+    border-left: 4px solid #0284c7;
+    border-radius: 0 6px 6px 0;
+    font-style: normal;
+    color: #334155;
+
+    p:last-child { margin-bottom: 0; }
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.75rem auto;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  }
+
+  code {
+    background: #f1f5f9;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.88em;
+  }
+}
+
+// 4. Chapter Navigation (Bottom of Article)
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
 }
 
 .topic-pagination-wrapper {
-  display: flex; 
+  display: flex;
+  align-items: stretch;
   justify-content: space-between;
+  gap: 1rem;
+
+  .pagination-col {
+    flex: 1 1 0;
+    display: flex;
+
+    &.prev { justify-content: flex-start; }
+    &.center { flex: 0 0 auto; justify-content: center; align-items: center; }
+    &.next { justify-content: flex-end; }
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 0.75rem;
+    .pagination-col { width: 100%; }
+    .pagination-col.center { order: -1; }
+  }
 }
 
-.wrapper {
-    max-width: -webkit-calc(1000px - (30px * 2));
-    max-width: calc(1000px - 30px * 2);
+.pagination-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+  }
+
+  .pagination-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .pagination-title {
+    font-size: 0.92rem;
+    color: #1e293b;
+    font-weight: 600;
+  }
+}
+
+.prev .pagination-card { text-align: left; }
+.next .pagination-card { text-align: right; }
+
+.pagination-toc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    text-decoration: none;
+  }
+}
+
+// 5. Book Landing Page (Table of Contents)
+.book-landing {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.book-hero {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 1.75rem;
+
+  .book-pill {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    margin-bottom: 0.5rem;
+  }
+
+  .book-hero-title {
+    margin: 0 0 0.75rem;
+    color: #0f172a;
+  }
+
+  .book-hero-description {
+    font-size: 1.05rem;
+    color: #475569;
+    margin-bottom: 1.25rem;
+  }
+
+  .book-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-start-reading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #0284c7;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: #0369a1;
+      color: #ffffff;
+      text-decoration: none;
+    }
+  }
+
+  .book-chapter-count {
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+}
+
+.book-toc {
+  .toc-heading {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .toc-chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .toc-chapter-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    gap: 1rem;
+
+    &:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      text-decoration: none;
+
+      .toc-chapter-title, .toc-chapter-arrow {
+        color: #0284c7;
+      }
+    }
+  }
+
+  .toc-chapter-main {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+
+    .chapter-icon { flex-shrink: 0; color: #94a3b8; }
+    .toc-chapter-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #1e293b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .toc-chapter-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: #64748b;
+
+    .toc-chapter-arrow { color: #94a3b8; }
+  }
 }

@@ -2,28 +2,91 @@
 layout: default
 ---
 
-<article>
-  {% assign intro = site[page.lang] | where: "topic_slug", page.topic_slug | where: "layout", "landing" | first %}
-  
-  {% include topic-navigation.html %}
+<article class="post-article">
+  {% assign current_topic = page.topic_slug %}
+  {% assign articles = site[page.lang] | where: "topic_slug", current_topic | where: "layout", "post" | sort: "order" %}
+  {% assign intro = site[page.lang] | where: "topic_slug", current_topic | where: "layout", "landing" | first %}
 
-  <hr><br>
+  {% assign next_page = nil %}
+  {% for article in articles %}
+    {% if article.url == page.url %}
+      {% unless forloop.last %}
+        {% assign next_index = forloop.index0 | plus: 1 %}
+        {% assign next_page = articles[next_index] %}
+      {% endunless %}
+    {% endif %}
+  {% endfor %}
 
-  
-  <h1>{{ page.title }}</h1>
+  {% if next_page == nil %}
+    {% assign found_current = false %}
+    {% assign next_topic_slug = nil %}
+    {% for topic_pair in site.data.topics %}
+      {% if found_current and next_topic_slug == nil %}
+        {% assign next_topic_slug = topic_pair[0] %}
+      {% endif %}
+      {% if topic_pair[0] == current_topic %}
+        {% assign found_current = true %}
+      {% endif %}
+    {% endfor %}
+    {% if next_topic_slug %}
+      {% assign next_topic_landing = site[page.lang] | where: "topic_slug", next_topic_slug | where: "layout", "landing" | first %}
+    {% endif %}
+  {% endif %}
+
+  <header class="post-header">
+    <div class="post-header-top">
+      <nav class="post-breadcrumb" aria-label="Breadcrumb">
+        {% if intro %}
+          <a href="{{ intro.url | relative_url }}" class="breadcrumb-book">{{ site.data.topics[page.topic_slug][page.lang] }}</a>
+          <span class="breadcrumb-sep" aria-hidden="true">&rsaquo;</span>
+        {% endif %}
+        <span class="breadcrumb-current">
+          {% if page.order and page.order > 0 %}
+            {{ site.data.i18n.chapter[page.lang] | default: "Chapter" }} {{ page.order }}
+          {% else %}
+            {{ page.title }}
+          {% endif %}
+        </span>
+      </nav>
+
+      {% if next_page %}
+        <a href="{{ next_page.url | relative_url }}" class="top-nav-next" title="{{ next_page.title }}">
+          <!-- <span class="top-nav-label">{{ site.data.i18n.next[page.lang] | default: "Next" }}:</span>-->
+          <span class="top-nav-title">{{ next_page.title }}</span>
+          <span class="top-nav-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      {% elsif next_topic_landing %}
+        <a href="{{ next_topic_landing.url | relative_url }}" class="top-nav-next" title="{{ site.data.topics[next_topic_slug][page.lang] }}">
+          <span class="top-nav-label">{{ site.data.i18n.next[page.lang] | default: "Next" }}:</span>
+          <span class="top-nav-title">{{ site.data.topics[next_topic_slug][page.lang] }}</span>
+          <span class="top-nav-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      {% endif %}
+    </div>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <div class="post-meta">
+      {% assign words = content | number_of_words %}
+      {% assign read_time = words | divided_by: 180 | at_least: 1 %}
+      <span class="meta-item read-time">
+        <svg class="meta-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>{{ read_time }} {{ site.data.i18n.read_time[page.lang] | default: "min read" }}</span>
+      </span>
+      {% if page.order and page.order > 0 %}
+        <span class="meta-dot">&middot;</span>
+        <span class="meta-item chapter-badge">
+          {{ site.data.i18n.chapter[page.lang] | default: "Chapter" }} {{ page.order }}
+        </span>
+      {% endif %}
+    </div>
+  </header>
 
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
-  
-  <hr>
 
-  {% include topic-navigation.html %}
+  <footer class="post-footer">
+    {% include topic-navigation.html %}
+  </footer>
 </article>
-
-
-<p>
-  <small>
-    <a href="{{ intro.url | relative_url }}">{{ site.data.topics[page.topic_slug][page.lang] }}</a>
-  </small>
-</p>

@@ -1,28 +1,37 @@
+{% assign current_lang = page.lang | default: site.lang | default: "en" %}
+{% assign available_langs = "en,ru,tt" | split: "," %}
+
 <header class="site-header" role="banner">
   <div class="wrapper">
-    <nav class="site-title">
-      <div class="trigger">
-        {% for item in site.data.navigation[page.lang] %}
-        <a href="{{ item.link | relative_url }}">
-          <img alt="{{ item.title }}" src="{{ "/assets/images/logo.png" | relative_url }}"  width="90" height="48" />
+    <div class="site-brand">
+      {% for item in site.data.navigation[current_lang] %}
+        <a class="site-logo-link" href="{{ item.link | relative_url }}">
+          <img class="site-logo" alt="{{ item.title }}" src="{{ '/assets/images/logo.png' | relative_url }}" width="90" height="48" />
         </a>
-        {% endfor %}
-      </div>
-    </nav>
-    <nav class="site-nav">
-      <div class="trigger">
-        {% if page.lang == "en" %}
-        <a href="{{ site.baseurl }}/ru/">RU</a>&nbsp;|
-        <a href="{{ site.baseurl }}/tt/">TT</a>
-        {% else %}
-          {% if page.lang == "ru" %}
-          <a href="{{ site.baseurl }}/">EN</a>&nbsp;|
-          <a href="{{ site.baseurl }}/tt/">TT</a>
+      {% endfor %}
+    </div>
+
+    <nav class="site-nav" aria-label="Language selection">
+      <div class="language-switcher">
+        {% for lang in available_langs %}
+          {% if lang == current_lang %}
+            <span class="lang-pill active" aria-current="true">{{ lang | upcase }}</span>
           {% else %}
-          <a href="{{ site.baseurl }}/">EN</a>&nbsp;|
-          <a href="{{ site.baseurl }}/ru/">RU</a>
+            {% assign target_url = "/" %}
+            {% if lang != "en" %}
+              {% assign target_url = "/" | append: lang | append: "/" %}
+            {% endif %}
+
+            {% if page.topic_slug %}
+              {% assign target_intro = site[lang] | where: "topic_slug", page.topic_slug | where: "layout", "landing" | first %}
+              {% if target_intro %}
+                {% assign target_url = target_intro.url %}
+              {% endif %}
+            {% endif %}
+
+            <a class="lang-pill" href="{{ target_url | relative_url }}" title="{{ lang | upcase }}">{{ lang | upcase }}</a>
           {% endif %}
-        {% endif %}
+        {% endfor %}
       </div>
     </nav>
   </div>

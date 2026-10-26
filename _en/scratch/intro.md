@@ -2,7 +2,7 @@
 layout: post
 title: "Intro"
 topic_slug: "scratch"
-order: 1
+order: 0
 ---
 
 Scratch is a visual programming environment created at MIT[^1] specifically for children and beginners. Instead of writing complex text code, it uses colorful blocks that snap together like LEGO bricks.

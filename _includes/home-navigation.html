@@ -9,11 +9,10 @@
       {% assign topic_title = site.data.topics[topic.name][language] %}
       
       <div>
-        
-        {% assign intro = topic.items " | where: "layout", "landing" | first %}
+        {% assign intro = topic.items | where: "layout", "landing" | first %}
         <strong><a href="{{ intro.url | relative_url }}">{{ topic_title }}</a></strong>
         <ol style="list-style-type: none;">
-          {% assign articles = topic.items " | where: "layout", "post" | sort: "order" %}
+          {% assign articles = topic.items | where: "layout", "post" | sort: "order" %}
           {% for article in articles %}
             <li><a href="{{ article.url | relative_url }}">{{ article.title }}</a></li>
           {% endfor %}

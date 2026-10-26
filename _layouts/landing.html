@@ -2,23 +2,53 @@
 layout: default
 ---
 
-<article>
-  <h1>{{ page.title }}</h1>
+<article class="book-landing">
+  {% assign articles = site[page.lang] | where: "topic_slug", page.topic_slug | where: "layout", "post" | sort: "order" %}
 
-  <div class="topic-description">
-    {{ content }}
-  </div>
+  <header class="book-hero">
+    <div class="book-pill">{{ site.data.i18n.book[page.lang] | default: "Book" }}</div>
+    <h1 class="book-hero-title">{{ page.title }}</h1>
 
-  <hr>
-  <br />
-  <h3>{{ site.data.i18n.content[page.lang] }}:</h3>
-  <ol style="list-style-type: none;">
-    {% assign articles = site[page.lang] | where: "topic_slug", page.topic_slug | where: "layout", "post" | sort: "order" %}
+    {% if content and content != "" %}
+      <div class="book-hero-description">
+        {{ content }}
+      </div>
+    {% endif %}
 
-    {% for article in articles %}
-    <li>
-      <a href="{{ article.url | relative_url }}">{{ article.title }}</a>
-    </li>
-    {% endfor %}
-  </ol>
+    <div class="book-hero-actions">
+      {% if articles.first %}
+        <a href="{{ articles.first.url | relative_url }}" class="btn-start-reading">
+          {{ site.data.i18n.start_reading[page.lang] | default: "Start reading" }} &rarr;
+        </a>
+      {% endif %}
+      <span class="book-chapter-count">
+        {{ articles.size }} {{ site.data.i18n.chapters[page.lang] | default: "chapters" }}
+      </span>
+    </div>
+  </header>
+
+  <section class="book-toc">
+    <h2 class="toc-heading">{{ site.data.i18n.content[page.lang] | default: "Table of Contents" }}</h2>
+
+    <div class="toc-chapter-list">
+      {% for article in articles %}
+        <a href="{{ article.url | relative_url }}" class="toc-chapter-item">
+          <div class="toc-chapter-main">
+            <svg class="chapter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+              <path d="M6 6h10"/>
+              <path d="M6 10h10"/>
+            </svg>
+            <span class="toc-chapter-title">{{ article.title }}</span>
+          </div>
+          <div class="toc-chapter-meta">
+            {% assign words = article.content | number_of_words %}
+            {% assign read_time = words | divided_by: 180 | at_least: 1 %}
+            <span class="toc-chapter-time">{{ read_time }} {{ site.data.i18n.read_time[page.lang] | default: "min read" }}</span>
+            <span class="toc-chapter-arrow" aria-hidden="true">&rarr;</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
 </article>

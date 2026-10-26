@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Sprite movements"
+title: "3. Sprite movements"
 topic_slug: "scratch"
-order: 4
+order: 3
 ---
 
 Let's talk about sprite coordinates. These are two numbers we use to tell the computer exactly where to position the character.

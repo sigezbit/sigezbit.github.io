@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Hello, Scratch!"
+title: "1. Hello, Scratch!"
 topic_slug: "scratch"
-order: 2
+order: 1
 ---
 
 So, shall we get started? You can open the Scratch programming environment directly in your browser. To do this, go to [https://scratch.mit.edu/](https://scratch.mit.edu/) and click "Create" in the upper left corner. When you first launch, you can change the interface language or adjust the contrast in the top menu.

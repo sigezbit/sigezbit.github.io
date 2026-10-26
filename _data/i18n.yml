@@ -14,3 +14,31 @@ topic_end:
   en: "End"
   ru: "Последняя"
   tt: "Соңгы бит"
+prev:
+  en: "Previous"
+  ru: "Назад"
+  tt: "Артка"
+next:
+  en: "Next"
+  ru: "Вперёд"
+  tt: "Алга"
+read_time:
+  en: "min read"
+  ru: "мин. чтения"
+  tt: "мин. уку"
+chapter:
+  en: "Chapter"
+  ru: "Глава"
+  tt: "Бүлек"
+start_reading:
+  en: "Start reading"
+  ru: "Начать чтение"
+  tt: "Укырга башлау"
+chapters:
+  en: "chapters"
+  ru: "глав"
+  tt: "бүлек"
+book:
+  en: "Book"
+  ru: "Книга"
+  tt: "Китап"
